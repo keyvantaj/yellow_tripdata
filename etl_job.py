@@ -6,7 +6,7 @@ spark = SparkSession.builder \
     .getOrCreate()
 
 # Load CSV
-df = spark.read.parquet("/mnt/data/yellow_tripdata_2025-01.parquet")
+df = spark.read.parquet("/data/yellow_tripdata_2025-01.parquet")
 df.printSchema()
 # Clean/transform
 df_clean = df.withColumn("pickup_date", to_date("tpep_pickup_datetime")) \
