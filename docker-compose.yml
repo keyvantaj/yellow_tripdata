@@ -1,0 +1,50 @@
+version: "3.3"
+
+services:
+  spark:
+    build: .
+    container_name: spark_etl
+    depends_on:
+      - postgres
+    volumes:
+      - ./data:/mnt/data
+    networks:
+      - etl_net
+    environment:
+      - SPARK_MODE=client
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: taxi_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - etl_net
+
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile.streamlit
+    ports:
+      - "8501:8501"
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+    networks:
+      - etl_net
+
+# Ces blocs doivent être en-dehors de `services`
+networks:
+  etl_net:
+    driver: bridge
+
+volumes:
+  pgdata:
+    driver: local
