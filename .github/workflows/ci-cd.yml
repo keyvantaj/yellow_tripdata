@@ -24,6 +24,16 @@ jobs:
         run: |
           python etl_job.py
 
+      - name: Download PostgreSQL JDBC driver
+        run: wget https://jdbc.postgresql.org/download/postgresql-42.6.0.jar -P /tmp
+
+      - name: Run Spark job
+        run: |
+          spark-submit \
+            --jars /tmp/postgresql-42.6.0.jar \
+            your_script.py
+
+
   build-docker:
     runs-on: ubuntu-latest
     needs: test-etl

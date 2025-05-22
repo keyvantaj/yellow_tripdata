@@ -7,7 +7,7 @@ services:
     depends_on:
       - postgres
     volumes:
-      - ./data:/mnt/data
+      - ./data:/data
     networks:
       - etl_net
     environment:
