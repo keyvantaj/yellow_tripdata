@@ -1,8 +1,19 @@
-FROM python:3.9
+FROM python:3.11-slim
 
-COPY app.py /app
-COPY requirements.txt /app
+# 1. Installer les dépendances système nécessaires
+RUN apt-get update && apt-get install -y \
+    default-jdk \
+    gcc \
+    libpq-dev \
+    curl \
+    && apt-get clean
 
-RUN pip install --no-cache-dir -r /app/requirements.txt
+# 2. Copier les fichiers dans le bon répertoire
+WORKDIR /app
+COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 3. Ajouter le reste de ton code
+COPY . .
 
 CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
