@@ -8,6 +8,21 @@ on:
 jobs:
   test-etl:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:13
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: admin
+          POSTGRES_PASSWORD: admin
+          POSTGRES_DB: taxi_db
+        options: >-
+          --health-cmd "pg_isready -U user"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v4
 
@@ -21,6 +36,12 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run ETL Job
+        env:
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_NAME: taxi_db
+          DB_USER: admin
+          DB_PASS: admin
         run: |
           python etl_job.py
 
@@ -37,19 +58,3 @@ jobs:
       - name: Build Streamlit Docker image
         run: |
           docker build -f Dockerfile.streamlit -t streamlit-app:latest .
-
-# Uncomment below if pushing to a container registry like Azure ACR or DockerHub
-#      - name: Log in to registry
-#        uses: docker/login-action@v3
-#        with:
-#          registry: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-#          username: ${{ secrets.REGISTRY_USERNAME }}
-#          password: ${{ secrets.REGISTRY_PASSWORD }}
-#
-#      - name: Push images
-#        run: |
-#          docker tag main-app:latest ${{ secrets.REGISTRY_LOGIN_SERVER }}/main-app:latest
-#          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/main-app:latest
-#
-#          docker tag streamlit-app:latest ${{ secrets.REGISTRY_LOGIN_SERVER }}/streamlit-app:latest
-#          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/streamlit-app:latest
