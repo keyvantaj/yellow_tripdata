@@ -3,6 +3,7 @@ from pyspark.sql.functions import col, to_date
 
 spark = SparkSession.builder \
     .appName("NYC Taxi ETL") \
+    .config("spark.jars", "jars/postgresql-42.6.0.jar") \
     .getOrCreate()
 
 # Load CSV
