@@ -25,7 +25,7 @@ agg_df.show(10)
 # Write to PostgreSQL
 agg_df.write \
     .format("jdbc") \
-    .option("url", "jdbc:postgresql://postgres:5432/taxi_db") \
+    .option("url", "jdbc:postgresql://host.docker.internal:5432/taxi_db") \
     .option("dbtable", "daily_trip_summary") \
     .option("user", "admin") \
     .option("password", "admin") \
