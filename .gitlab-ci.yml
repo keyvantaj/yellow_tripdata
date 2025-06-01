@@ -45,4 +45,4 @@ lint:
   script:
     - pip install flake8 black
     - black .
-    - flake8 etl_job.py app.py 
+    - flake8 etl_job.py app.py --max-line-length=90
