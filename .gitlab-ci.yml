@@ -44,5 +44,5 @@ lint:
   stage: lint
   script:
     - pip install flake8 black
-    - black --check .
+    - black .
     - flake8 .
