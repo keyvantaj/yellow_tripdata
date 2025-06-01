@@ -10,8 +10,7 @@ conn = psycopg2.connect(
     port=5432,
     dbname="taxi_db",
     user="admin",
-    password="admin"
-)
+    password="admin")
 
 query = (
     "SELECT * FROM daily_trip_summary "
