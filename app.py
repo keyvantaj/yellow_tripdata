@@ -13,8 +13,10 @@ conn = psycopg2.connect(
     password="admin"
 )
 
-query = ("SELECT * FROM daily_trip_summary ORDER BY"
-         " pickup_date LIMIT 100;")
+query = (
+    "SELECT * FROM daily_trip_summary "
+    "ORDER BY pickup_date LIMIT 100;"
+)
 df = pd.read_sql(query, conn)
 
 st.subheader("Daily Trip Summary (first 100 rows)")
