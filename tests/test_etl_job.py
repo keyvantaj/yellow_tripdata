@@ -6,8 +6,10 @@ from pyspark.sql import DataFrame
 
 @pytest.fixture(scope="module")
 def spark():
-    return SparkSession.builder.master("local[*]").appName("Test ETL").getOrCreate()
-
+    return SparkSession.builder \
+        .appName("NYC Taxi ETL") \
+        .config("spark.jars", "../jars/postgresql-42.6.2.jar") \
+        .getOrCreate()
 
 def test_etl_transformation(spark):
     # Sample input data
