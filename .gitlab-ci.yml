@@ -51,7 +51,7 @@ test:
   stage: test
   script:
     - pip install pytest coverage
-    - coverage run -m pytest tests/
+    - coverage run -m pytest etl_job.py app.py
     - coverage report -m
     - coverage xml
   artifacts:

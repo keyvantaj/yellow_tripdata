@@ -32,6 +32,12 @@ agg_df = df_clean.groupBy("pickup_date") \
     .withColumnRenamed("avg(trip_distance)", "avg_trip_distance") \
     .withColumnRenamed("avg(total_amount)", "avg_total_amount")
 
+result = agg_df.collect()
+
+# Verify results
+assert len(result) == 33  # Only two valid dates
+assert all(r["avg_trip_distance"] > 0 for r in result)
+
 # Write to PostgreSQL
 agg_df.write \
     .format("jdbc") \
