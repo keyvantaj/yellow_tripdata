@@ -26,7 +26,9 @@ variables:
   PROJECT_NAME: my-python-app
   IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
   DOCKER_DRIVER: overlay2
+  PYTHONPATH: "$CI_PROJECT_DIR"
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+  JAVA_HOME: "/usr/lib/jvm/java-11-openjdk-amd64"  # nécessaire pour PySpark
 
 cache:
   paths:
@@ -34,11 +36,17 @@ cache:
 
 image: python:3.11
 
+services:
+  - postgres:13
 before_script:
+  - apt-get update && apt-get install -y openjdk-11-jdk
   - python -m venv venv
   - source venv/bin/activate
   - pip install --upgrade pip
   - pip install -r requirements.txt
+  - coverage erase
+  - sleep 10  # attendre que PostgreSQL soit prêt
+  - psql -h postgres -U admin -d taxi_db -c "SELECT 1;" || true
 
 lint:
   stage: lint
