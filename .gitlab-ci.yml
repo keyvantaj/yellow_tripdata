@@ -46,3 +46,16 @@ lint:
     - pip install flake8 black
     - black .
     - flake8 etl_job.py app.py --max-line-length=90
+
+test:
+  stage: test
+  script:
+    - pip install pytest coverage
+    - coverage run -m pytest tests/
+    - coverage report -m
+    - coverage xml
+  artifacts:
+    reports:
+      junit: junit.xml
+    paths:
+      - coverage.xml
