@@ -28,7 +28,7 @@ variables:
   DOCKER_DRIVER: overlay2
   PYTHONPATH: "$CI_PROJECT_DIR"
   PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
-  JAVA_HOME: "/usr/lib/jvm/java-11-openjdk-amd64"  # nécessaire pour PySpark
+  JAVA_HOME: "/opt/bitnami/java" # nécessaire pour PySpark
 
 cache:
   paths:
