@@ -39,7 +39,11 @@ image: python:3.11
 services:
   - postgres:13
 before_script:
-  - apt-get update && apt-get install -y openjdk-11-jdk
+  - apt-get update
+  - apt-get install -y software-properties-common
+  - add-apt-repository ppa:openjdk-r/ppa -y
+  - apt-get update
+  - apt-get install -y openjdk-11-jdk
   - python -m venv venv
   - source venv/bin/activate
   - pip install --upgrade pip
