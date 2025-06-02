@@ -40,16 +40,8 @@ services:
   - postgres:13
 
 before_script:
-  - apt-get update
-  - apt-get install -y software-properties-common
-  - add-apt-repository ppa:openjdk-r/ppa -y
-  - apt-get install -y openjdk-11-jdk
-  - python -m venv venv
-  - source venv/bin/activate
-  - pip install --upgrade pip
   - pip install -r requirements.txt
-  - coverage erase
-  - sleep 10  # attendre que PostgreSQL soit prêt
+  - sleep 10  # 🕓 attendre que PostgreSQL démarre
   - psql -h postgres -U admin -d taxi_db -c "SELECT 1;" || true
 
 lint:
