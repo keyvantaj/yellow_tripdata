@@ -5,8 +5,10 @@ COPY data /data/
 COPY jars/postgresql-42.6.2.jar /opt/bitnami/spark/jars/
 
 WORKDIR /app
+RUN install_packages openjdk-11-jdk
 
 # ✅ Corrige l’erreur "basedir must be absolute"
 ENV HOME=/tmp
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 
 CMD ["spark-submit", "/app/etl_job.py"]
