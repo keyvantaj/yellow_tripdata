@@ -1,9 +1,8 @@
 FROM bitnami/spark:latest
 
 COPY etl_job.py /app/etl_job.py
-COPY data /data
+COPY data /data/
 COPY jars/postgresql-42.6.2.jar /opt/bitnami/spark/jars/
-COPY tests /tests
 
 WORKDIR /app
 

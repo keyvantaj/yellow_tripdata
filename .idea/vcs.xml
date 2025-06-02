@@ -4,6 +4,5 @@
     <mapping directory="$PROJECT_DIR$/../.." vcs="Git" />
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/yellow_tripdata" vcs="Git" />
   </component>
 </project>
