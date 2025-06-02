@@ -1,16 +1,6 @@
-services:
-  spark:
-    build: .
-    container_name: spark_etl
-    depends_on:
-      - postgres
-    volumes:
-      - ./data:/data
-    networks:
-      - etl_net
-    environment:
-      - SPARK_MODE=client
+version: "3.8"
 
+services:
   postgres:
     image: postgres:15
     container_name: postgres
@@ -24,23 +14,43 @@ services:
       - pgdata:/var/lib/postgresql/data
     networks:
       - etl_net
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "admin"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  spark:
+    build: .
+    container_name: spark_etl
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./data:/data
+    networks:
+      - etl_net
+    environment:
+      - SPARK_MODE=client
+      - DB_HOST=postgres  # Required in etl_job.py for DB connection
 
   streamlit:
     build:
       context: .
       dockerfile: Dockerfile.streamlit
+    container_name: streamlit_app
     ports:
       - "8501:8501"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     volumes:
       - .:/app
     networks:
       - etl_net
     environment:
-      - DATABASE_HOST=postgres
+      - DATABASE_HOST=postgres  # Required in app.py
 
-# Ces blocs doivent être en-dehors de `services`
 networks:
   etl_net:
     driver: bridge
