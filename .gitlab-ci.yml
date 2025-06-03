@@ -53,14 +53,16 @@ lint:
 
 test:
   stage: test
+  image: python:3.11
   before_script:
     - apt-get update
-    - apt-get install -y openjdk-11-jdk
+    - apt-get install -y openjdk-11-jre-headless
     - export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
     - export PATH=$JAVA_HOME/bin:$PATH
     - pip install -r requirements.txt
+    - pip install pytest pytest-cov
   script:
-    - coverage run -m pytest --junitxml=pytest-report.xml
+    - coverage run -m pytest --junitxml=junit.xml
     - coverage report -m
     - coverage xml
   artifacts:
