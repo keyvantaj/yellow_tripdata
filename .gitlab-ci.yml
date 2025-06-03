@@ -62,7 +62,8 @@ test:
     - pip install -r requirements.txt
   script:
     - pytest tests/ --junitxml=junit.xml
-    - coverage run -m pytest etl_job.py app.py
+    - coverage run -m pytest tests/ --junitxml=junit.xml
+    - coverage report -m
     - coverage xml
   artifacts:
     when: always
