@@ -46,7 +46,7 @@ def run_etl():
     DB_USER = os.environ.get("DB_USER", "admin")
     DB_PASS = os.environ.get("DB_PASS", "admin")
 
-    input_path = "/data/yellow_tripdata_2025-01.parquet"
+    input_path = "data/yellow_tripdata_2025-01.parquet"
     jdbc_url = f"jdbc:postgresql://{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
     spark = get_spark_session()
@@ -60,6 +60,6 @@ def run_etl():
     write_to_postgres(agg_df, jdbc_url, DB_USER, DB_PASS)
 
     spark.stop()
-    
+
 if __name__ == "__main__":
     run_etl()
