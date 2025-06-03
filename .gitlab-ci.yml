@@ -55,10 +55,11 @@ test:
   stage: test
   script:
     - pip install pytest coverage
-    - coverage run -m pytest etl_job.py app.py
+    - coverage run -m pytest etl_job.py app.py --junitxml=pytest-report.xml
     - coverage report -m
     - coverage xml
   artifacts:
+    when: always
     reports:
       junit: junit.xml
     paths:
