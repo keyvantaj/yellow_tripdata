@@ -52,8 +52,8 @@ lint:
     - flake8 etl_job.py app.py --max-line-length=90
 
 test:
-  stage: test
   image: python:3.11
+  stage: test
   before_script:
     - apt-get update
     - apt-get install -y openjdk-11-jre-headless
