@@ -3,3 +3,6 @@ psycopg2-binary
 pandas
 pyspark==3.5.1
 pytest
+coverage
+flake8
+black

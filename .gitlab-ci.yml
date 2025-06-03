@@ -47,15 +47,13 @@ before_script:
 lint:
   stage: lint
   script:
-    - pip install flake8 black
     - black .
     - flake8 etl_job.py app.py --max-line-length=90
 
 test:
   stage: test
   script:
-    - pip install pytest coverage
-    - coverage run -m pytest etl_job.py app.py --junitxml=pytest-report.xml
+    - coverage run -m pytest --junitxml=pytest-report.xml
     - coverage report -m
     - coverage xml
   artifacts:
