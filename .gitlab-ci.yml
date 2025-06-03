@@ -40,6 +40,7 @@ services:
   - postgres:13
 
 before_script:
+  - apt-get update && apt-get install -y postgresql-client
   - pip install -r requirements.txt
   - sleep 10  # 🕓 attendre que PostgreSQL démarre
   - psql -h postgres -U admin -d taxi_db -c "SELECT 1;" || true
@@ -52,6 +53,12 @@ lint:
 
 test:
   stage: test
+  before_script:
+    - apt-get update
+    - apt-get install -y openjdk-11-jdk
+    - export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+    - export PATH=$JAVA_HOME/bin:$PATH
+    - pip install -r requirements.txt
   script:
     - coverage run -m pytest --junitxml=pytest-report.xml
     - coverage report -m
