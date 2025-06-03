@@ -52,17 +52,16 @@ lint:
     - flake8 etl_job.py app.py --max-line-length=90
 
 test:
-  image: python:3.11
   stage: test
   before_script:
     - apt-get update
-    - apt-get install -y openjdk-11-jre-headless
-    - export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+    - apt-get install -y wget gnupg2 software-properties-common && \
+    - apt-get install -y openjdk-17-jdk
+    - export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
     - export PATH=$JAVA_HOME/bin:$PATH
     - pip install -r requirements.txt
-    - pip install pytest pytest-cov
   script:
-    - coverage run -m pytest --junitxml=junit.xml
+    - pytest --junitxml=junit.xml
     - coverage report -m
     - coverage xml
   artifacts:
